@@ -4,12 +4,27 @@
  * Memory effective range()
  *
  * @param integer $start
- * @param integer $end
+ * @param integer $limit
+ * @param integer $step
  * @return void
  */
-function xrange(int $start, int $end)
+function xrange(int $start, int $limit, int $step = 1)
 {
-    for ($i = $start; $i <= $end; $i++) {
-        yield $i;
+    if ($start <= $limit) {
+        if ($step <= 0) {
+            throw new LogicException('Step must be positive');
+        }
+
+        for ($i = $start; $i <= $limit; $i += $step) {
+            yield $i;
+        }
+    } else {
+        if ($step >= 0) {
+            throw new LogicException('Step must be negative');
+        }
+
+        for ($i = $start; $i >= $limit; $i += $step) {
+            yield $i;
+        }
     }
 }
